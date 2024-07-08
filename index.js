@@ -2,14 +2,15 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
-// const blogRouter = require('./blogindex');
 const devuser = require('./devuser');
 const reviewmodel = require('./reviewmodel');
 const blogRouter = require('./blogindex');
 
+// origin: 'http://localhost:3000'
+
 // CORS options
 const corsOptions = {
-  origin: 'http://localhost:3000', // Allow requests from this origin
+  origin: true, // Allow requests from this origin
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these HTTP methods
   allowedHeaders: ['Content-Type', 'Authorization'] // allow these headers
 };
@@ -18,16 +19,8 @@ const corsOptions = {
 app.use(express.json()); // Parse JSON bodies
 app.use(cors(corsOptions)); // Enable CORS with specified options
 
-// Log incoming requests
-app.use((req, res, next) => {
-  console.log(`Incoming request: ${req.method} ${req.url}`);
-  next();
-});
-//CSP policy
-app.use((req, res, next) => {
-  res.setHeader('Content-Security-Policy', "default-src 'self'; font-src 'self' data: fonts.gstatic.com; script-src 'self'; style-src 'self'; img-src 'self';");
-  next();
-});
+
+
 
 // MongoDB connection
 mongoose.connect('mongodb+srv://test:12345@cluster0.g9hrrbp.mongodb.net/')
