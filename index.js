@@ -23,6 +23,11 @@ app.use((req, res, next) => {
   console.log(`Incoming request: ${req.method} ${req.url}`);
   next();
 });
+//CSP policy
+app.use((req, res, next) => {
+  res.setHeader('Content-Security-Policy', "default-src 'self'; font-src 'self' data: fonts.gstatic.com;");
+  next();
+});
 
 // MongoDB connection
 mongoose.connect('mongodb+srv://test:12345@cluster0.g9hrrbp.mongodb.net/')
