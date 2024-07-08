@@ -18,6 +18,12 @@ const corsOptions = {
 app.use(express.json()); // Parse JSON bodies
 app.use(cors(corsOptions)); // Enable CORS with specified options
 
+// Log incoming requests
+app.use((req, res, next) => {
+  console.log(`Incoming request: ${req.method} ${req.url}`);
+  next();
+});
+
 // MongoDB connection
 mongoose.connect('mongodb+srv://test:12345@cluster0.g9hrrbp.mongodb.net/')
   .then(() => console.log('DB connected'))
@@ -32,6 +38,7 @@ app.get('/', (req, res) => {
 app.post('/register', async (req, res) => {
   try {
     const { fullname, email, password, confirmpassword } = req.body;
+    console.log(`Register attempt with email: ${email}`);
     const exist = await devuser.findOne({ email });
 
     if (exist) {
@@ -60,8 +67,11 @@ app.post('/register', async (req, res) => {
 
 // Login endpoint
 app.post('/login', async (req, res) => {
+  console.log('Login endpoint hit');
+
   try {
     const { email, password } = req.body;
+    console.log(`Login attempt with email: ${email}`);
     const exist = await devuser.findOne({ email });
 
     if (!exist) {
