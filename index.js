@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 });
 //CSP policy
 app.use((req, res, next) => {
-  res.setHeader('Content-Security-Policy', "default-src 'self'; font-src 'self' data: fonts.gstatic.com;");
+  res.setHeader('Content-Security-Policy', "default-src 'self'; font-src 'self' data: fonts.gstatic.com; script-src 'self'; style-src 'self'; img-src 'self';");
   next();
 });
 
